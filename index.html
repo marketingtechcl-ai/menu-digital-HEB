@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Humitas El Batán</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap');
@@ -367,7 +372,30 @@
     opacity:0; pointer-events:none; transition:opacity .3s ease;
   }
   #top-fab.show{opacity:1;pointer-events:auto;}
+
+  /* ---------- DESKTOP: one-screen-per-section is a mobile idea; on a wide monitor
+     let each section size itself to its content instead of stretching to fill
+     the whole viewport height (that's what was leaving big empty gaps). ---------- */
+  @media (min-width:900px){
+    html{scroll-snap-type:none;}
+    section.panel, footer.panel{
+      height:auto; min-height:0; display:block;
+      padding-top:clamp(3rem,7vh,4.5rem); padding-bottom:clamp(3rem,7vh,4.5rem);
+      overflow:visible;
+    }
+    .panel > .section-inner{height:auto; display:block; padding-top:0; padding-bottom:0;}
+    .section-head{margin-bottom:2rem;}
+    .content-wrap{display:block;}
+    .content-wrap .dish-grid{margin-bottom:1.5rem;}
+    .combo-grid, .drinks-grid{flex:none; align-content:normal;}
+    .carta-list{display:block;}
+    .section-inner{max-width:1100px;}
+    .hero{min-height:92vh;}
+    footer.panel{display:flex;}
+  }
 </style>
+</head>
+<body>
 
 <nav class="navbar" id="navbar">
   <a href="#top" class="brand" style="text-decoration:none;">
@@ -580,3 +608,5 @@
   window.addEventListener('scroll', setActive, {passive:true});
   setActive();
 </script>
+</body>
+</html>
