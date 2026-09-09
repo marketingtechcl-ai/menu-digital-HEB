@@ -66,6 +66,14 @@
   }
   .navlinks a:hover, .navlinks a.active{color:var(--gold-light); border-color:var(--gold);}
 
+  @media (max-width:480px){
+    .navbar{padding:.4rem .7rem;}
+    .navbar .brand span{display:none;}
+    .navbar .brand img{width:32px;height:32px;}
+    .navlinks{gap:.85rem;}
+    .navlinks a{font-size:.66rem;letter-spacing:.02em;}
+  }
+
   /* ---------- HERO ---------- */
   .hero{
     position:relative;
@@ -215,6 +223,14 @@
   .dish-card .info h3{font-family:'Poppins';font-weight:800;text-transform:none;font-size:1rem;color:var(--green);}
   .dish-card .price{font-family:'Anton',sans-serif;color:var(--brown);font-size:1.05rem;white-space:nowrap;}
   .dish-card .desc{font-size:.86rem;color:var(--muted-on-cream);margin-top:.15rem;}
+
+  @media (max-width:400px){
+    .dish-card{padding:.8rem;gap:.7rem;}
+    .dish-card .num{width:28px;height:28px;font-size:.85rem;}
+    .dish-card img{width:60px;height:60px;}
+    .dish-card .info h3{font-size:.92rem;}
+    .dish-card .price{font-size:.95rem;}
+  }
 
   .other-opts{
     margin-top:1.6rem;
@@ -508,11 +524,20 @@
   let heroH = hero.offsetHeight;
   window.addEventListener('resize', ()=>{heroH = hero.offsetHeight;});
 
+  let nearFooter = false;
   window.addEventListener('scroll', ()=>{
     const y = window.scrollY;
     if(y > heroH * 0.6){ nav.classList.add('show'); } else { nav.classList.remove('show'); }
-    if(y > 400){ fab.classList.add('show'); } else { fab.classList.remove('show'); }
+    if(y > 400 && !nearFooter){ fab.classList.add('show'); } else { fab.classList.remove('show'); }
   }, {passive:true});
+
+  const footerEl = document.querySelector('footer');
+  if(footerEl && 'IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ nearFooter = e.isIntersecting; if(nearFooter){ fab.classList.remove('show'); } });
+    }, {threshold:0.08});
+    io.observe(footerEl);
+  }
 
   const links = document.querySelectorAll('.navlinks a');
   const sections = ['desayunos','combos','carta','bebidas','contacto'].map(id=>document.getElementById(id));
@@ -528,3 +553,4 @@
   window.addEventListener('scroll', setActive, {passive:true});
   setActive();
 </script>
+
